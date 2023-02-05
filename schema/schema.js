@@ -19,6 +19,7 @@ const MovieType = new GraphQLObjectType({
     id: { type: GraphQLID },
     title: { type: GraphQLString },
     genre: { type: GraphQLString },
+    year: { type: GraphQLInt },
     location: { type: GraphQLString },
     actor: {
       type: ActorType,
@@ -40,9 +41,11 @@ const ActorType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
+    gender: { type: GraphQLString },
+    birthPlace: { type: GraphQLString },
     age: { type: GraphQLInt },
     movies: {
-      type: new GraphQLList(MovieType),
+      type: MovieType,
       resolve(parent, args) {
         return Movie.findOne({ where: { actorId: parent.id } });
       },
@@ -57,7 +60,7 @@ const AuthorType = new GraphQLObjectType({
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
     movies: {
-      type: new GraphQLList(MovieType),
+      type: MovieType,
       resolve(parent, args) {
         return Movie.findOne({ where: { authorId: parent.id } });
       },
@@ -131,11 +134,15 @@ const Mutation = new GraphQLObjectType({
       type: ActorType,
       args: {
         name: { type: new GraphQLNonNull(GraphQLString) },
+        gender: { type: new GraphQLNonNull(GraphQLString) },
+        birthPlace: { type: new GraphQLNonNull(GraphQLString) },
         age: { type: new GraphQLNonNull(GraphQLInt) },
       },
       resolve(parent, args) {
         let actor = new Actor({
           name: args.name,
+          gender: args.gender,
+          birthPlace: args.birthPlace,
           age: args.age,
         });
         return actor.save();
@@ -146,6 +153,7 @@ const Mutation = new GraphQLObjectType({
       args: {
         title: { type: new GraphQLNonNull(GraphQLString) },
         genre: { type: new GraphQLNonNull(GraphQLString) },
+        year: { type: new GraphQLNonNull(GraphQLInt) },
         location: { type: new GraphQLNonNull(GraphQLString) },
         actorId: { type: new GraphQLNonNull(GraphQLID) },
         authorId: { type: new GraphQLNonNull(GraphQLID) },
@@ -154,6 +162,7 @@ const Mutation = new GraphQLObjectType({
         let movie = new Movie({
           title: args.title,
           genre: args.genre,
+          year: args.year,
           location: args.location,
           actorId: args.actorId,
           authorId: args.authorId,
@@ -200,15 +209,18 @@ const Mutation = new GraphQLObjectType({
     updateMovie: {
       type: MovieType,
       args: {
-        id: { type: new GraphQLNonNull(GraphQLID) },
-        title: { type: new GraphQLNonNull(GraphQLString) },
-        genre: { type: new GraphQLNonNull(GraphQLString) },
-        location: { type: new GraphQLNonNull(GraphQLString) },
+        id: { type: GraphQLID },
+        actorId: { type: GraphQLID },
+        authorId: { type: GraphQLID },
+        title: { type: GraphQLString },
+        year: { type: GraphQLInt },
+        genre: { type: GraphQLString },
+        location: { type: GraphQLString },
       },
       async resolve(parent, args) {
         const actor = await Movie.findOne({ where: { id: args.id } });
         if (actor) {
-          const { title, genre, location } = args;
+          const { title, genre, location, year, actorId, authorId } = args;
           await Movie.update(args, { where: { id: args.id } });
           return args;
         } else {
@@ -221,12 +233,14 @@ const Mutation = new GraphQLObjectType({
       args: {
         id: { type: GraphQLID },
         name: { type: GraphQLString },
+        gender: { type: GraphQLString },
         age: { type: GraphQLInt },
+        birthPlace: { type: GraphQLString },
       },
       async resolve(parent, args) {
         const actor = await Actor.findOne({ where: { id: args.id } });
         if (actor) {
-          const { name, age } = args;
+          const { name, age, gender, birthPlace } = args;
           await Actor.update(args, { where: { id: args.id } });
           return args;
         } else {
