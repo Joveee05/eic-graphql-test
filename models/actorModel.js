@@ -8,6 +8,12 @@ const Actor = DB.define('actor', {
   age: {
     type: sequelize.DataTypes.STRING,
   },
+  gender: {
+    type: sequelize.DataTypes.STRING,
+  },
+  birthPlace: {
+    type: sequelize.DataTypes.STRING,
+  },
 });
 
 module.exports = Actor;

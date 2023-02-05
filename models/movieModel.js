@@ -9,13 +9,16 @@ const Movie = DB.define('movies', {
     type: sequelize.DataTypes.STRING,
   },
   actorId: {
-    type: sequelize.DataTypes.STRING,
+    type: sequelize.DataTypes.INTEGER,
   },
   authorId: {
-    type: sequelize.DataTypes.STRING,
+    type: sequelize.DataTypes.INTEGER,
   },
   location: {
     type: sequelize.DataTypes.STRING,
+  },
+  year: {
+    type: sequelize.DataTypes.INTEGER,
   },
 });
 
