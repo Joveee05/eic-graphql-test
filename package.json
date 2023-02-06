@@ -4,15 +4,18 @@
   "description": "GraphQL",
   "main": "server",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "test": "set NODE_ENV=test&& mocha test/*.js --exit"
   },
   "author": "Brian E. Etaghene",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-graphql": "^0.12.0",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
     "path": "^0.12.7",
     "pg": "^8.9.0",
@@ -20,8 +23,10 @@
     "sequelize": "^6.28.0"
   },
   "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
     "eslint": "^8.33.0",
-    "js-to-ts-converter": "^0.18.2",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.20"
   }
 }
