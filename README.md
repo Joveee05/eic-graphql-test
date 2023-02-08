@@ -1,4 +1,4 @@
-# Lendsqr Demo Credit Application
+# Elements International Consulting Movie Library API
 
 ## About
 
@@ -46,16 +46,16 @@ $ npm start
 
 2.  Configure environment by creating **_.env_** file
 
-> **_cp .env.example .env_**
+- **_cp .env.example .env_**
 
 And configure your own .env
 
-> DB_USER=postgres
-> DB_HOST=dbhost
-> DB_PORT=5432
-> DB_NAME=dbname
-> DB_PASSWD=dbpassword
-> CONNECTION_STRING=postgres://username:password@host:yourport
+- DB_USER=postgres
+- DB_HOST=dbhost
+- DB_PORT=5432
+- DB_NAME=dbname
+- DB_PASSWD=dbpassword
+- CONNECTION_STRING=postgres://username:password@host:yourport
 
 3.  Install Postgre dependecy if you use Postgre as DBMS.
 
